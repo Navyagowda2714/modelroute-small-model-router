@@ -1,0 +1,17 @@
+services:
+  modelroute:
+    build: .
+    ports: ["8000:8000"]
+    environment:
+      LLM_PROVIDER: ${LLM_PROVIDER:-offline}
+      LLM_MODEL: ${LLM_MODEL:-}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      MODELROUTE_USE_COMPLEXITY: "true"
+  prometheus:
+    image: prom/prometheus:v2.53.0
+    ports: ["9090:9090"]
+    volumes:
+      - ./deploy/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./deploy/alerts.yml:/etc/prometheus/alerts.yml:ro
+    depends_on: [modelroute]
