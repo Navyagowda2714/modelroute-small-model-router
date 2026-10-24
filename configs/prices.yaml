@@ -1,0 +1,32 @@
+# Price table used by the router's cost accounting and by `make eval`.
+# All values are ILLUSTRATIVE ASSUMPTIONS - replace with your contract / current list prices.
+# Lookup is exact name first, then substring match (e.g. "llm-claude-sonnet-5-5" -> "claude-sonnet").
+default_small: small-tfidf-svm
+default_large: simulated-large-llm
+models:
+  small-tfidf:
+    per_request: 0.000002
+    note: "TF-IDF + linear model on a shared CPU pod (~$0.07/h at ~10 req/s average load)"
+  small-lora:
+    per_request: 0.00004
+    note: "LoRA fine-tuned 0.5B-8B model on a single GPU (~$1/h at ~7 req/s average load)"
+  simulated-large-llm:
+    input_per_mtok: 3.0
+    output_per_mtok: 15.0
+    note: "Offline stand-in, priced like a frontier hosted model"
+  offline:
+    input_per_mtok: 3.0
+    output_per_mtok: 15.0
+    note: "Offline keyword stand-in for the large model in the API, priced as the large model"
+  claude-sonnet:
+    input_per_mtok: 3.0
+    output_per_mtok: 15.0
+  claude-haiku:
+    input_per_mtok: 1.0
+    output_per_mtok: 5.0
+  gpt-4o-mini:
+    input_per_mtok: 0.15
+    output_per_mtok: 0.60
+  llama3.1:
+    per_request: 0.0002
+    note: "Self-hosted 8B via Ollama, amortised GPU cost"
