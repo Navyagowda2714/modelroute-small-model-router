@@ -1,0 +1,25 @@
+# QLoRA on Llama 3.1 8B Instruct (gated model: accept the licence on Hugging Face first).
+# 4-bit NF4 base + LoRA r=16 fits a single 24 GB GPU (A10G / L4 / RTX 4090).
+base_model: meta-llama/Llama-3.1-8B-Instruct
+method: qlora
+output_dir: artifacts/lora-llama3.1-8b
+train_file: data/generated/sft_train.jsonl
+val_file: data/generated/sft_val.jsonl
+lora:
+  r: 16
+  alpha: 32
+  dropout: 0.05
+  target_modules: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
+train:
+  epochs: 2
+  learning_rate: 1.0e-4
+  per_device_batch_size: 4
+  grad_accum_steps: 8
+  max_seq_len: 384
+  warmup_ratio: 0.03
+  lr_scheduler: cosine
+  eval_steps: 100
+  eval_generate_samples: 200
+  bf16: true
+  gradient_checkpointing: true
+  seed: 13

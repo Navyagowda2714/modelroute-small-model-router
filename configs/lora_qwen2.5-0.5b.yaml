@@ -1,0 +1,24 @@
+# QLoRA on a 0.5B instruct model: fits a single 16 GB GPU (T4/L4), ~10 min per epoch on ~4k rows.
+base_model: Qwen/Qwen2.5-0.5B-Instruct
+method: qlora
+output_dir: artifacts/lora-qwen2.5-0.5b
+train_file: data/generated/sft_train.jsonl
+val_file: data/generated/sft_val.jsonl
+lora:
+  r: 16
+  alpha: 32
+  dropout: 0.05
+  target_modules: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
+train:
+  epochs: 3
+  learning_rate: 2.0e-4
+  per_device_batch_size: 16
+  grad_accum_steps: 2
+  max_seq_len: 384
+  warmup_ratio: 0.03
+  lr_scheduler: cosine
+  eval_steps: 100
+  eval_generate_samples: 200
+  bf16: true
+  gradient_checkpointing: true
+  seed: 13
