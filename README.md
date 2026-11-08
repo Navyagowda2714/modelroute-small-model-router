@@ -4,7 +4,7 @@
 
 [![Python](https://img.shields.io/badge/python-3.10%2B-3776AB?logo=python&logoColor=white)](pyproject.toml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![CI](https://github.com/Navyagowda2714/modelroute/actions/workflows/ci.yml/badge.svg)](https://github.com/Navyagowda2714/modelroute/actions/workflows/ci.yml)
+[![CI](https://github.com/Navyagowda2714/modelroute-small-model-router/actions/workflows/ci.yml/badge.svg)](https://github.com/Navyagowda2714/modelroute-small-model-router/actions/workflows/ci.yml)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
 ## Why this exists
@@ -68,7 +68,7 @@ The small model runs on every request; it costs about 1/1000th of an LLM call an
 ## Quickstart
 
 ```bash
-git clone https://github.com/Navyagowda2714/modelroute && cd modelroute
+git clone https://github.com/Navyagowda2714/modelroute-small-model-router && cd modelroute-small-model-router
 python -m venv .venv && source .venv/bin/activate
 make install          # pip install -e ".[dev]"
 
@@ -185,7 +185,7 @@ Compared with large-only, the tuned router **cuts cost by 64% and p50 latency by
 
 For methodology, the per-slice breakdown (seen vs unseen phrasing, ticket type), the calibration plot and the sensitivity analysis, see [docs/EVALUATION.md](docs/EVALUATION.md).
 
-## Design decisions and trade-offs
+## Design decisions & trade-offs
 
 - **Confidence *and* complexity, not confidence alone.** A calibrated model is still confidently wrong on negations. The detector adds about 16 pts of fallback for +1 pt macro-F1 (the last two rows of the table). That is a business decision, so it is a flag: `MODELROUTE_USE_COMPLEXITY`.
 - **Small model always runs.** The router does not try to predict whether to skip it. At about 10 ms and $0.000002 per call, the cheapest model doubles as the router's feature extractor.
